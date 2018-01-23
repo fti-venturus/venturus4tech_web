@@ -1,0 +1,27 @@
+<html>
+  <head>
+    <title>Venturus4Tech - Ventuchat</title>
+    <link rel="stylesheet" href="estilo.css" type="text/css"/>
+    <script src="script.js"></script>
+  </head>
+  <body>
+    <div class="chat-window">
+
+      <h1>Ventuchat</h1>
+
+      <div class="messageList">
+        <ul id="messageList"></ul>
+      </div>
+
+      <div class="messagePanel">
+        <textarea id="message" placeholder="Escreva sua mensagem aqui..."
+          rows="5" onchange="updateCounter()" onkeyup="return keyUp(event)" maxlength="500"></textarea>
+
+        <button id="btnSend" onclick="sendMessage()">Enviar</button>
+
+        <div id="charCounter">0/500</div>
+      </div>
+
+    </div>
+  </body>
+</html>

@@ -1,0 +1,84 @@
+
+body {
+  font-family: sans-serif;
+  text-decoration: none;
+}
+
+h1 {
+  text-align: center;
+}
+
+#message {
+  border: solid 1px #cccccc;
+  border-radius: 6px;
+  width: 645px;
+  padding: 20px;
+  font-family: sans-serif;
+  font-size: 17px;
+}
+
+.chat-window {
+  width: 100%;
+}
+
+.messageList {
+  background-color: #dde;
+  border-radius: 6px;
+  width: 800px;
+  height: 700px;
+  padding: 0;
+  margin: 0 auto;
+  overflow: auto;
+}
+
+.messageList ul {
+  list-style: none;
+  margin: 0;
+  padding: 10px;
+}
+
+.messageList ul li {
+  background-color: #fff;
+  border-radius: 6px;
+  padding: 20px;
+  margin: 0 0 10px 0;
+  white-space: pre-wrap;
+}
+
+.messageList ul li:last-child {
+  margin-bottom: 0;
+}
+
+.messageList li .time {
+  text-align: right;
+  font-size: 12px;
+  color: #777777;
+  border-top: 1px solid #eeeeee;
+  padding-top: 5px;
+  margin-top: 5px;
+}
+
+.messagePanel {
+  width: 800px;
+  margin: 10px auto 0 auto;
+}
+
+#btnSend {
+  background-color: #06c;
+  color: white;
+  cursor: pointer;
+  font-weight: bold;
+  border-radius: 6px;
+  padding: 20px;
+  border: none;
+  display: inline-block;
+  vertical-align: top;
+  font-size: 17px;
+  transition: background-color 0.5s;
+  width: 150px;
+}
+
+#charCounter {
+  font-size: 15px;
+  color: #777777;
+}
