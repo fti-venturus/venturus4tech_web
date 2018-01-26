@@ -6,7 +6,7 @@ var Schema = mongoose.Schema;
 
 server.listen(3000);
 
-mongoose.connect('mongodb://localhost/chat4tech');
+mongoose.connect('mongodb://localhost:27017/chat4tech');
 
 function handler(req, res) {
   res.type('text').send('Hello').end();
