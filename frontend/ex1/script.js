@@ -2,13 +2,13 @@
 function sendMessage() {
 
   // obtém referência do elemento de mensagem
-  var elemMessage = document.getElementById("message");
+  var elemMessage = document.getElementById('message');
 
   // pega o valor digitado
   var message = elemMessage.value;
 
   // se a mensagem for vazia, avisa o usuário e retorna
-  if (message === '') {
+  if (message.trim() === '') {
     alert('Digite uma mensagem!');
     return;
   }
@@ -27,7 +27,9 @@ function sendMessage() {
 
   li.appendChild(div);
 
-  document.getElementById("messageList").appendChild(li);
+  var msgList = document.getElementById('messageList');
+  msgList.appendChild(li);
+  msgList.scrollTop = msgList.scrollHeight;
 
   elemMessage.value = ''; // apaga o conteúdo da textarea
   elemMessage.focus(); // coloca o foco na textarea
@@ -61,6 +63,6 @@ function formatTime(date) {
 }
 
 function updateCounter() {
-  var charCount = document.getElementById("message").value.length;
-  document.getElementById("charCounter").innerHTML = charCount + "/500"; 
+  var charCount = document.getElementById('message').value.length;
+  document.getElementById('charCounter').innerHTML = charCount + '/500'; 
 }
