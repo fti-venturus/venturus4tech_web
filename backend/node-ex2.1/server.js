@@ -28,7 +28,7 @@ app.get('/mensagens', function(req, res) {
 app.post('/mensagens', function(req, res) {
   var message = req.body;
   messages.push(message);
-  res.json({ message: message });
+  res.json(message);
 });
 
 // inicia escuta na porta 3000
