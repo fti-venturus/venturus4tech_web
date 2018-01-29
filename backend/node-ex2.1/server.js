@@ -19,13 +19,13 @@ app.get('/', function(req, res) {
 
 var messages = [];
 
-app.get('/mensagens', function(req, res) {
+app.get('/messages', function(req, res) {
   res.json(messages);
 });
 
 // insere rota POST de mensagens
 
-app.post('/mensagens', function(req, res) {
+app.post('/messages', function(req, res) {
   var message = req.body;
   messages.push(message);
   res.json(message);

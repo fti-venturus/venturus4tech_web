@@ -15,8 +15,8 @@ app.get('/', function(req, res) {
 
 // insere rota GET de mensagens
 
-app.get('/mensagens', function(req, res) {
-  res.send('Get de mensagens').end();
+app.get('/messages', function(req, res) {
+  res.send('Get messages').end();
 });
 
 // inicia escuta na porta 3000
