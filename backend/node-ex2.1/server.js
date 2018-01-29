@@ -9,6 +9,14 @@ var bodyParser = require('body-parser');
 var app = express();
 app.use(bodyParser.json());
 
+// habilita cors!
+
+app.use(function(req, res, next) {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Headers', '*');
+  next();
+});
+
 // insere rota padrão GET
 
 app.get('/', function(req, res) {
@@ -27,8 +35,8 @@ app.get('/messages', function(req, res) {
 // insere rota POST de mensagens
 
 app.post('/messages', function(req, res) {
-  var message = req.body;
   console.log(`POST /messages`);
+  var message = req.body;
   console.log(message);
   messages.push(message);
   res.json(message);
@@ -39,4 +47,3 @@ app.post('/messages', function(req, res) {
 app.listen(3000, function(err) {
   console.log('Servidor no ar');
 });
-
