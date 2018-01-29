@@ -20,6 +20,7 @@ app.get('/', function(req, res) {
 var messages = [];
 
 app.get('/messages', function(req, res) {
+  console.log('GET /messages');
   res.json(messages);
 });
 
@@ -27,6 +28,8 @@ app.get('/messages', function(req, res) {
 
 app.post('/messages', function(req, res) {
   var message = req.body;
+  console.log(`POST /messages`);
+  console.log(message);
   messages.push(message);
   res.json(message);
 });
