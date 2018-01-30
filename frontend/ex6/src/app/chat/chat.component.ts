@@ -1,6 +1,7 @@
 import { AfterViewChecked, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ChatService } from "app/chat/chat.service";
 import 'rxjs/Rx';
+import { LoginService } from 'app/login.service';
 
 @Component({
   selector: 'app-chat',
@@ -14,7 +15,10 @@ export class ChatComponent implements OnInit, AfterViewChecked {
 
   @ViewChild('scrollMe') private myScrollContainer: ElementRef;
 
-  constructor(private chatMessage: ChatService) {
+  constructor(
+    private chatMessage: ChatService,
+    private loginService: LoginService
+  ) {
     this.chatMessage.getMessages().subscribe(
       (list) => this.messageList = list,
       (error) => console.error(error)
@@ -25,7 +29,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
     var obj = {
       message: this.message,
       time: new Date(),
-      author: this.chatMessage.name
+      author: this.loginService.name
     }
 
 

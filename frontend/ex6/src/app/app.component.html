@@ -1,4 +1,4 @@
 <div class="chat-window">
   <app-chat-header></app-chat-header>
-  <app-chat></app-chat>
+  <app-chat *ngIf="isUserLoggedIn()"></app-chat>
 </div>

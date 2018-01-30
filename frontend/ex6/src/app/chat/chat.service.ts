@@ -2,8 +2,6 @@ import { Observable } from 'rxjs/Rx';
 import { Injectable } from '@angular/core';
 import { Http, Headers, Response } from "@angular/http";
 
-import 'rxjs/Rx';
-
 @Injectable()
 export class ChatService {
 
@@ -14,11 +12,6 @@ export class ChatService {
   logTime: Date;
 
   constructor(private _http: Http) { 
-
-    while(this.name == '')
-      this.name = prompt("What is your name?");
-
-    this.logTime = new Date();
 
     this._headers = new Headers();
     this._headers.append('Content-Type', 'application/json');

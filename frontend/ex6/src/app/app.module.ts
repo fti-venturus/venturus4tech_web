@@ -8,6 +8,7 @@ import { AppComponent } from './app.component';
 import { ChatComponent } from './chat/chat.component';
 import { ChatItemComponent } from './chat/chat-item/chat-item.component';
 import { ChatHeaderComponent } from './chat/chat-header/chat-header.component';
+import { LoginService } from 'app/login.service';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,7 @@ import { ChatHeaderComponent } from './chat/chat-header/chat-header.component';
     FormsModule,
     HttpModule
   ],
-  providers: [ChatService],
+  providers: [ChatService, LoginService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
