@@ -13,6 +13,8 @@ export class ChatListComponent implements OnInit {
   messageList: any[] = [];
   server = null;
 
+  nickname: string;
+
   representationOfThis = this;
 
   constructor() {
@@ -21,19 +23,27 @@ export class ChatListComponent implements OnInit {
 
   ngOnInit() {
     this.server.on('connect', (data) => {
-      var nickname = prompt("What is your name?");
+      this.nickname = prompt("What is your name?");
 
-      this.server.emit('join', nickname);
+      this.server.emit('join', this.nickname);
     })
 
-    this.server.on('messages', (data) => {
-      this.messageList.push({message: data});
+    this.server.on('message', (message) => {
+      this.messageList.push(message);
+    });
+
+    this.server.on('messages', (messages) => {
+      this.messageList = messages;
+    });
+
+    this.server.on('join', (nickname) => {
+      console.log(nickname);
     });
   }
 
   sendMessage() {
-    this.messageList.push({ message: this.message, time: new Date().toLocaleTimeString() });
-    this.server.emit('messages', this.message);
+  //  this.messageList.push({ message: this.message, time: new Date().toLocaleTimeString() });
+    this.server.emit('message', { message: this.message, time: new Date(), author: this.nickname });
     this.message = '';
   }
 
