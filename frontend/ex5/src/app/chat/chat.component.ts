@@ -1,26 +1,37 @@
 import { ChatService } from './chat.service';
 import { Component } from '@angular/core';
+import { LoginService } from 'app/login.service';
+import { OnInit } from '@angular/core/src/metadata/lifecycle_hooks';
 
 @Component({
   selector: 'app-chat',
   templateUrl: './chat.component.html',
   styleUrls: ['./chat.component.css']
 })
-export class ChatComponent {
+export class ChatComponent implements OnInit {
 
   message: string = '';
   messageList: Object[] = [];
 
-  constructor(private chatService: ChatService) {
+  constructor(
+    private loginService: LoginService,
+    private chatService: ChatService
+  ) {
   }
 
   public sendMessage(): void {
-    this.messageList.push({ 
+    let message = {
       message: this.message,
       time: new Date(),
-      name: this.chatService.name
+      author: this.loginService.name
+    }
+    this.chatService.postMessage(message).subscribe(
+      (message) => {
+        this.loadMessages();
+        this.message = '';
+    }, (error)=> {
+
     });
-    this.message = '';
   }
 
   getKeyPress(e) {
@@ -29,5 +40,14 @@ export class ChatComponent {
       this.sendMessage();
       e.preventDefault();
     }
+  }
+
+  loadMessages() {
+    this.chatService.getMessages().subscribe((messages) => {
+      this.messageList = messages;
+    });
+  }
+  ngOnInit() {
+    this.loadMessages();
   }
 }
