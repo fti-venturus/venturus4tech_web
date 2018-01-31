@@ -1,0 +1,8 @@
+<li [ngClass]="{'myMessage': isMyMessage()}">
+    <div class="message">
+      <div class="user-name" [style.color]="bgColor">{{author}}</div>
+      <div class="text">{{ text }}</div>
+      <div class='time'>{{ time | date:"hh:mm a" }}</div>
+    </div>
+    <div class="profile" [style.background-color]="bgColor" [style.color]="textColor">{{author.substring(0, 1) | uppercase}}</div>
+</li>
