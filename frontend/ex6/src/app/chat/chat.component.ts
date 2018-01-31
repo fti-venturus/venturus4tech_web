@@ -1,6 +1,5 @@
-import { AfterViewChecked, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { ChatService } from "app/chat/chat.service";
-import 'rxjs/Rx';
+import { ChatService } from './chat.service';
+import { Component, OnInit, ViewChild, ElementRef, AfterViewChecked } from '@angular/core';
 import { LoginService } from 'app/login.service';
 
 @Component({
@@ -10,36 +9,36 @@ import { LoginService } from 'app/login.service';
 })
 export class ChatComponent implements OnInit, AfterViewChecked {
 
-  message: string = '';
-  messageList: any[] = [];
+  @ViewChild('scrollElement') scrollElement: ElementRef;
 
-  @ViewChild('scrollMe') private myScrollContainer: ElementRef;
+  message: string = '';
+  messageList: Object[] = [];
 
   constructor(
-    private chatMessage: ChatService,
-    private loginService: LoginService
+    private loginService: LoginService,
+    private chatService: ChatService
   ) {
-    this.chatMessage.getMessages().subscribe(
-      (list) => this.messageList = list,
-      (error) => console.error(error)
-    );
+  }
+
+  scrollToBottom(el: ElementRef) {
+    console.log('aasd');
+    let div = el.nativeElement as HTMLDivElement;
+    div.scrollTop = div.scrollHeight;
   }
 
   public sendMessage(): void {
-    var obj = {
+    let message = {
       message: this.message,
       time: new Date(),
       author: this.loginService.name
     }
-
-
-
-    this.chatMessage.sendMessage(obj)
-      .subscribe((response) => {
-        this.messageList.push(response.json());
-      });
-
-    this.message = '';
+    this.chatService.postMessage(message).subscribe(
+      (message) => {
+        this.loadMessages();
+        this.message = '';
+    }, (error)=> {
+      console.log(error);
+    });
   }
 
   getKeyPress(e) {
@@ -50,18 +49,17 @@ export class ChatComponent implements OnInit, AfterViewChecked {
     }
   }
 
-
+  loadMessages() {
+    this.chatService.getMessages().subscribe((messages) => {
+      this.messageList = messages;
+    });
+  }
   ngOnInit() {
-    this.scrollToBottom();
+    this.loadMessages();
   }
 
   ngAfterViewChecked() {
-    this.scrollToBottom();
+    this.scrollToBottom(this.scrollElement);
   }
 
-  scrollToBottom(): void {
-    try {
-      this.myScrollContainer.nativeElement.scrollTop = this.myScrollContainer.nativeElement.scrollHeight;
-    } catch (err) { }
-  }
 }

@@ -48,3 +48,9 @@ textarea {
   padding-top: 10px;
   text-align: right;
 }
+
+.counter {
+  margin-top: 10px;
+  font-size: 11px;
+  float: left;
+}

@@ -1,7 +1,5 @@
-import { ChatService } from '../chat.service';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { LoginService } from 'app/login.service';
-
 @Component({
   selector: 'app-chat-item',
   templateUrl: './chat-item.component.html',
@@ -9,60 +7,52 @@ import { LoginService } from 'app/login.service';
 })
 export class ChatItemComponent implements OnInit {
 
-  @Input() text: string = '';
-  @Input() time: string = '';
-  @Input() author: string = '';
-  letter = '';
+  @Input('text') text:string;
+  @Input('time') time:Date;
+  @Input('author') author:string;
 
-  backgroundColor: string;
-  color: string;
+  public bgColor: string = "";
+  public textColor: string = "";
 
   constructor(
-    private chatService: ChatService,
     private loginService: LoginService
-  ) {}
+  ) { }
 
-  isMyMessage(): boolean {
+  isMyMessage():boolean {
     return this.author == this.loginService.name;
   }
 
-  ngOnInit() {
-    this.letter = this.author.substr(0, 1);
-    this.backgroundColor = this.stringToColor(this.author);
-
-    if (this.getColorBrightness(this.author) == 0)
-      this.color = '#000000';
-    else
-      this.color = '#ffffff';
-  }
-
-  private stringToColor(str): string {
-    var hash = 0;
-    for (var i = 0; i < str.length; i++) {
+  createColorFromString(str:string) {
+    let hash = 0;
+    for (let i = 0; i < str.length; i++) {
       hash = str.charCodeAt(i) + ((hash << 5) - hash);
     }
-    var colour = '#';
-    for (var i = 0; i < 3; i++) {
-      var value = (hash >> (i * 8)) & 0xFF;
+    let colour = '#';
+    for (let i = 0; i < 3; i++) {
+      let value = (hash >> (i * 8)) & 0xFF;
       colour += ('00' + value.toString(16)).substr(-2);
     }
     return colour;
   }
 
-  getColorBrightness(str): number {
+  isColorDark(color) {
+      let c = color.substring(1);  // strip #
+      let rgb = parseInt(c, 16);   // convert rrggbb to decimal
+      let r = (rgb >> 16) & 0xff;  // extract red
+      let g = (rgb >>  8) & 0xff;  // extract green
+      let b = (rgb >>  0) & 0xff;  // extract blue
 
-    var c = str.substring(1);      // strip #
-    var rgb = parseInt(c, 16);   // convert rrggbb to decimal
-    var r = (rgb >> 16) & 0xff;  // extract red
-    var g = (rgb >> 8) & 0xff;  // extract green
-    var b = (rgb >> 0) & 0xff;  // extract blue
+      let luma = 0.2126 * r + 0.7152 * g + 0.0722 * b; // per ITU-R BT.709
+      console.log(luma);
+      if (luma < 40) {
+          return true;
+      }
+      return false;
+  }
 
-    var luma = 0.2126 * r + 0.7152 * g + 0.0722 * b; // per ITU-R BT.709
-
-    if (luma < 140)
-      return 1;
-
-    return 0;
+  ngOnInit() {
+    this.bgColor = this.createColorFromString(this.author);
+    this.textColor = this.isColorDark(this.bgColor) ? '#FFF' : '#000';
   }
 
 }

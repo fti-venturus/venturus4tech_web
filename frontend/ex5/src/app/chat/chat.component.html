@@ -1,12 +1,13 @@
-<div class="messageList">
+<div class="messageList" #scrollElement>
   <ul id="messageList">
-    <li *ngFor="let message of messageList">
+    <app-chat-item *ngFor="let message of messageList" [text]="message.message" [time]="message.time" [author]="message.author"></app-chat-item>
+    <!-- <li *ngFor="let message of messageList">
       <div class="message">
         <div class="username">{{message.name}}</div>
         <div class="text">{{ message.message }}</div>
         <div class='time'>{{ message.time | date:"hh:mm a" }}</div>
       </div>
-    </li>
+    </li> -->
   </ul>
 </div>
 

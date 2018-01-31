@@ -8,12 +8,14 @@ import { ChatComponent } from './chat/chat.component';
 import { ChatService } from "app/chat/chat.service";
 import { ChatHeaderComponent } from './chat/chat-header/chat-header.component';
 import { LoginService } from 'app/login.service';
+import { ChatItemComponent } from './chat/chat-item/chat-item.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     ChatComponent,
-    ChatHeaderComponent
+    ChatHeaderComponent,
+    ChatItemComponent
   ],
   imports: [
     BrowserModule,

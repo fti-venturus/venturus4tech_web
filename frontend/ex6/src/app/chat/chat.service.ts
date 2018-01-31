@@ -1,30 +1,24 @@
-import { Observable } from 'rxjs/Rx';
-import { Injectable } from '@angular/core';
-import { Http, Headers, Response } from "@angular/http";
+import { Injectable } from "@angular/core";
+import { Http, Headers } from "@angular/http";
+import { Observable } from "rxjs/Rx";
+import 'rxjs/Rx';
 
 @Injectable()
 export class ChatService {
 
-  private _headers: Headers;
-  private _url: string = ''
+    private url = 'http://localhost:3000/messages';
+    constructor(
+        private http: Http
+    ) {
+    }
 
-  name: string = '';
-  logTime: Date;
+    getMessages():Observable<any[]> {
+        return this.http.get(this.url).map(res => res.json());
+    }
 
-  constructor(private _http: Http) { 
-
-    this._headers = new Headers();
-    this._headers.append('Content-Type', 'application/json');
-
-    this._url = "http://localhost:3000/messages";
-  }
-
-  public getMessages(): Observable<any[]> {
-    return this._http.get(this._url).map(res => res.json());
-  }
-
-   public sendMessage(message: any): Observable<Response> {
-    return this._http.post(this._url, JSON.stringify(message), { headers: this._headers });
-  }
-
+    postMessage(message: any):Observable<any> {
+        let messageHeaders = new Headers();
+        messageHeaders.append('Content-Type', 'application/json');
+        return this.http.post(this.url,message).map(res => res.json(), { headers: messageHeaders } );
+    } 
 }
