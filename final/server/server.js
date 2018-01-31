@@ -1,5 +1,6 @@
 
 var http = require('http');
+var socket = require('socket.io');
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
@@ -60,7 +61,7 @@ function saveMessage(message, cb) {
 
 // inicia socket passando nosso server
 
-var io = require('socket.io')(server);
+var io = socket(server);
 
 // configura o socket com eventos
 
