@@ -26,7 +26,7 @@ var MessageModel = mongoose.model('messages', MessageSchema);
 // cria o servidor com função de callback
 
 var server = http.createServer(function(req, res) {
-  res.setHeader('Content-type', 'text/plain');
+  res.setHeader('Content-type', 'text/plain; charset=utf-8');
   res.write('Versão final');
   res.end();
 });
