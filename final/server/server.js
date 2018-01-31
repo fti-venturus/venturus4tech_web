@@ -26,7 +26,9 @@ var MessageModel = mongoose.model('messages', MessageSchema);
 // cria o servidor com função de callback
 
 var server = http.createServer(function(req, res) {
-  res.write('Versão final').end();
+  res.setHeader('Content-type', 'text/plain');
+  res.write('Versão final');
+  res.end();
 });
 
 // põe o servidor para escutar a porta 3000 e o
