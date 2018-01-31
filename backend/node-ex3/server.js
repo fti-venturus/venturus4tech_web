@@ -4,8 +4,8 @@ var http = require('http');
 // cria o servidor e coloca o callback
 
 var server = http.createServer(function(req, res) {
-  console.log("Recebeu request");
-  res.write('Hello world!');
+  res.setHeader('Content-type', 'text/plain; charset=utf-8');
+  res.write('Versão final');
   res.end();
 });
 
@@ -17,12 +17,13 @@ server.listen(3000, '0.0.0.0', function() {
   console.log('Servidor ouvindo porta 3000');
 });
 
-var messages = [];
-var io = require('socket.io')(server);
+var messages = []; // lista de mensagens
 
 function saveMessage(message) {
   messages.push(message);
 }
+
+var io = require('socket.io')(server);
 
 io.on('connection', function(client) {
 
