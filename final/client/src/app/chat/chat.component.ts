@@ -52,12 +52,15 @@ export class ChatComponent implements OnInit, AfterViewChecked {
   }
   ngOnInit() {
     this.serverService.server.on('messages', (messages) => {
-      console.log(messages);
       this.messageList = messages;
     });
 
     this.serverService.server.on('message', (message) => {
-      this.messageList.push = message;
+      this.messageList.push(message);
+    });
+
+    this.serverService.server.on('join', (user) => {
+      console.log(user);
     });
 
   }
