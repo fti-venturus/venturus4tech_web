@@ -7,7 +7,7 @@ import { LoginService } from 'app/login.service';
   templateUrl: './chat.component.html',
   styleUrls: ['./chat.component.css']
 })
-export class ChatComponent implements OnInit, AfterViewChecked {
+export class ChatComponent implements OnInit {
 
   @ViewChild('scrollElement') scrollElement: ElementRef;
 
@@ -18,12 +18,6 @@ export class ChatComponent implements OnInit, AfterViewChecked {
     private loginService: LoginService,
     private chatService: ChatService
   ) {
-  }
-
-  scrollToBottom(el: ElementRef) {
-    console.log('aasd');
-    let div = el.nativeElement as HTMLDivElement;
-    div.scrollTop = div.scrollHeight;
   }
 
   public sendMessage(): void {
@@ -58,8 +52,5 @@ export class ChatComponent implements OnInit, AfterViewChecked {
     this.loadMessages();
   }
 
-  ngAfterViewChecked() {
-    this.scrollToBottom(this.scrollElement);
-  }
 
 }
