@@ -1,30 +1,96 @@
 
-var bodyParser = require('body-parser');
-var express = require('express');
-var app = express();
+var http = require('http');
+var mongoose = require('mongoose');
+var Schema = mongoose.Schema;
 
-var port = 3000;
+// conecta com o banco de dados "vnt4tech"
 
-app.use(bodyParser.json());
+mongoose.connect('mongodb://localhost:27017/vnt4tech');
 
-app.listen(port, function(err) {
-  if (!err) {
-    console.log(`Servidor ouvindo porta ${port}.`);
+// define schema do banco de dados
+
+var MessageSchema = new Schema({
+  message: String,
+  author: String,
+  time: {
+    type: Date,
+    default: new Date()
   }
 });
 
-var messages = [];
+// cria modelo no banco a partir do schema
 
-app.get('/', function(req, res) {
-  res.send('Olá mundo!');
+var MessageModel = mongoose.model('messages', MessageSchema);
+
+// cria o servidor com função de callback
+
+var server = http.createServer(function(req, res) {
+  res.send('Versão final').end();
 });
 
-app.get('/messages', function(req, res) {
-  res.send(messages);
+// põe o servidor para escutar a porta 3000 e o
+// IP "0.0.0.0" abaixo serve para disponibilizar a
+// aplicação para acesso remoto (de outra máquina)
+
+server.listen(3000, '0.0.0.0', function() {
+  console.log('Servidor ouvindo porta 3000');
 });
 
-app.post('/messages', function(req, res) {
-  var message = req.body;
-  messages.push(message);
-  res.send(message);
+// define função para salvar mensagens
+// message - objeto da mensagem enviada
+// cb - função de callback
+
+function saveMessage(message, cb) {
+
+  var newMessage = new MessageModel();
+  newMessage.time = message.time || new Date();
+  newMessage.author = message.author || '';
+  newMessage.message = message.message || '';
+
+  newMessage.save(function(error) {
+    if (error) {
+      console.error(error);
+      cb(null);
+    }
+    else {
+      cb(newMessage);
+    }
+  });
+}
+
+// inicia socket passando nosso server
+
+var io = require('socket.io')(server);
+
+// configura o socket com eventos
+
+io.on('connection', function(client) { // cliente conectou
+
+  console.log('Cliente conectou');
+
+  MessageModel.find({}, function(error, messages) {
+    if (error) {
+      console.error(error);
+    }
+    else {
+      // envia todas as mensagens ao cliente
+      client.emit('messages', messages);
+    }
+  });
+
+  // cliente entrou no chat
+  client.on('join', function(nickname) {
+    console.log(`"${nickname}" entrou`);
+    io.emit('join', nickname); // envia nickname para todos
+  });
+
+  // cliente enviou mensagem
+  client.on('message', function(message) {
+    console.log('Recebeu mensagem:');
+    console.log(message);
+
+    saveMessage(message, function(newMessage) {
+      io.emit('message', newMessage); // envia mensagem para todos
+    });
+  });
 });
