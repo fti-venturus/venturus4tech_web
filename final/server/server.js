@@ -25,7 +25,7 @@ var MessageModel = mongoose.model('messages', MessageSchema);
 
 // cria o servidor com função de callback
 
-var server = http.createServer(function(req, res) {
+var server = http.createServer((req, res) => {
   res.setHeader('Content-type', 'text/plain; charset=utf-8');
   res.write('Versão final');
   res.end();
@@ -35,7 +35,7 @@ var server = http.createServer(function(req, res) {
 // IP "0.0.0.0" abaixo serve para disponibilizar a
 // aplicação para acesso remoto (de outra máquina)
 
-server.listen(3000, '0.0.0.0', function() {
+server.listen(3000, '0.0.0.0', (err) => {
   console.log('Servidor ouvindo porta 3000');
 });
 
@@ -50,7 +50,7 @@ function saveMessage(message, cb) {
   newMessage.author = message.author || '';
   newMessage.message = message.message || '';
 
-  newMessage.save(function(error) {
+  newMessage.save((error) => {
     if (error) {
       console.error(error);
       cb(null);
@@ -67,11 +67,11 @@ var io = socket(server);
 
 // configura o socket com eventos
 
-io.on('connection', function(client) { // cliente conectou
+io.on('connection', (client) => { // cliente conectou
 
   console.log('Cliente conectou');
 
-  MessageModel.find({}, function(error, messages) {
+  MessageModel.find({}, (error, messages) => {
     if (error) {
       console.error(error);
     }
@@ -82,17 +82,17 @@ io.on('connection', function(client) { // cliente conectou
   });
 
   // cliente entrou no chat
-  client.on('join', function(nickname) {
+  client.on('join', (nickname) => {
     console.log(`"${nickname}" entrou`);
     io.emit('join', nickname); // envia nickname para todos
   });
 
   // cliente enviou mensagem
-  client.on('message', function(message) {
+  client.on('message', (message) => {
     console.log('Recebeu mensagem:');
     console.log(message);
 
-    saveMessage(message, function(newMessage) {
+    saveMessage(message, (newMessage) => {
       io.emit('message', newMessage); // envia mensagem para todos
     });
   });
