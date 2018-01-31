@@ -1,11 +1,18 @@
 
-function handler(req, res) {
+var http = require('http');
+
+// cria o servidor e coloca o callback
+
+var server = http.createServer(function(req, res) {
   console.log("Recebeu request");
   res.write('Hello world!');
   res.end();
-}
+});
 
-var server = require('http').createServer(handler);
+// põe o servidor para escutar a porta 3000 e o
+// IP "0.0.0.0" abaixo serve para disponibilizar a
+// aplicação para acesso remoto (de outra máquina)
+
 server.listen(3000, '0.0.0.0', function() {
   console.log('Servidor ouvindo porta 3000');
 });
