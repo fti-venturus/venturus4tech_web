@@ -1,6 +1,5 @@
 
-backend/node-ex2.1/node_modules/
-backend/node-ex3/node_modules/
+backend/node-*/node_modules/
 
 frontend/ex2/node_modules/
 frontend/ex2/package-lock.json
@@ -9,4 +8,3 @@ frontend/ex6/package-lock.json
 
 final/server/node_modules/
 final/client/node_modules/
-backend/node-socket/node_modules/
